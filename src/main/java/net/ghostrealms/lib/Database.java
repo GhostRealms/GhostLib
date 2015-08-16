@@ -4,6 +4,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,15 +14,17 @@ import java.util.ArrayList;
 
 public class Database {
   
-  enum SQL {
+  public enum SQL {
     H2,
     MYSQL,
     SQLITE;
   }
+
+  public static int test;
   
   private final JavaPlugin plugin;
   private final String db;
-  private SQL mode = SQL.H2;
+  private SQL mode;
   
   private Connection connection;
   
@@ -33,17 +36,52 @@ public class Database {
   
   private ArrayList<String> updateQueue = new ArrayList<String>();
   
-  public Database(String db, JavaPlugin plugin) {
+  public Database(String db, JavaPlugin plugin, SQL mode) {
     this.db = db;
     this.plugin = plugin;
-    
+    this.mode = mode;
+
+    //make sure config exists
+    File configFile = new File(plugin.getDataFolder() + File.separator + "config.yml");
+    if(!configFile.exists())
+    {
+      try {
+        configFile.createNewFile();
+      }
+      catch (IOException e)
+      {
+        e.printStackTrace();
+      }
+    }
+
     if(mode == SQL.MYSQL) {
       FileConfiguration config = plugin.getConfig();
-      mysql_database = config.getString("database.name");
-      mysql_host     = config.getString("database.host");
-      mysql_user     = config.getString("database.user");
-      mysql_pass     = config.getString("database.pass");
-      mysql_port     = config.getInt("database.port");
+
+        if(!config.contains("mysql.database"))
+            config.set("mysql.database", "dbname");
+        if(!config.contains("mysql.host"))
+            config.set("mysql.host", "localhost");
+        if(!config.contains("mysql.user"))
+            config.set("mysql.user", "root");
+        if(!config.contains("mysql.pass"))
+            config.set("mysql.pass", "password");
+        if(!config.contains("mysql.port"))
+              config.set("mysql.port", 3306);
+
+      try
+      {
+        config.save(configFile);
+      }
+      catch (IOException e)
+      {
+        e.printStackTrace();
+      }
+
+      mysql_database = config.getString("mysql.database");
+      mysql_host     = config.getString("mysql.host");
+      mysql_user     = config.getString("mysql.user");
+      mysql_pass     = config.getString("mysql.pass");
+      mysql_port     = config.getInt("mysql.port");
     }
     
     setupConnection();
@@ -147,7 +185,6 @@ public class Database {
     try {
       Statement stmt = connection.createStatement();
       boolean status = stmt.execute(sql);
-      stmt.closeOnCompletion();
       return status;
     } catch (SQLException ex) {
       ex.printStackTrace();
@@ -159,7 +196,6 @@ public class Database {
     try {
       Statement stmt = connection.createStatement();
       int status = stmt.executeUpdate(sql);
-      stmt.closeOnCompletion();
       return status;
     } catch (SQLException ex) {
       ex.printStackTrace();
@@ -171,7 +207,6 @@ public class Database {
     try {
       Statement stmt = connection.createStatement();
       ResultSet status = stmt.executeQuery(sql);
-      stmt.closeOnCompletion();
       return status;
     } catch (SQLException ex) {
       ex.printStackTrace();
