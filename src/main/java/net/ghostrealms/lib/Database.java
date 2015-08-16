@@ -5,11 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class Database {
@@ -145,7 +141,6 @@ public class Database {
         }
         break;
     }
-
   }
   
   protected String getDatabase() {
@@ -181,10 +176,17 @@ public class Database {
     }
   }
   
-  public boolean execute(String sql) {
+  public boolean write(String sql, Object...args) {
     try {
-      Statement stmt = connection.createStatement();
-      boolean status = stmt.execute(sql);
+      PreparedStatement stmt = connection.prepareStatement(sql);
+
+      for(int i = 0; i < args.length; i++)
+      {
+        //+1 because the first parameter is 1, not 0
+        stmt.setObject(i + 1, args[i]);
+      }
+
+      boolean status = stmt.execute();
       return status;
     } catch (SQLException ex) {
       ex.printStackTrace();
@@ -192,10 +194,17 @@ public class Database {
     }
   }
   
-  public int executeUpdate(String sql) {
+  public int update(String sql, Object...args) {
     try {
-      Statement stmt = connection.createStatement();
-      int status = stmt.executeUpdate(sql);
+      PreparedStatement stmt = connection.prepareStatement(sql);
+
+      for(int i = 0; i < args.length; i++)
+      {
+        //+1 because the first parameter is 1, not 0
+        stmt.setObject(i + 1, args[i]);
+      }
+
+      int status = stmt.executeUpdate();
       return status;
     } catch (SQLException ex) {
       ex.printStackTrace();
@@ -203,23 +212,22 @@ public class Database {
     }
   }
   
-  public ResultSet executeQuery(String sql) {
+  public ResultSet read(String sql, Object...args) {
     try {
-      Statement stmt = connection.createStatement();
-      ResultSet status = stmt.executeQuery(sql);
-      return status;
+      PreparedStatement stmt = connection.prepareStatement(sql);
+
+      for(int i = 0; i < args.length; i++)
+      {
+        //+1 because the first parameter is 1, not 0
+        stmt.setObject(i + 1, args[i]);
+      }
+
+      ResultSet results = stmt.executeQuery();
+      return results;
     } catch (SQLException ex) {
       ex.printStackTrace();
       return null;
     }
-  }
-  
-  public ResultSet query(String sql) {
-    return executeQuery(sql);
-  }
-  
-  public int update(String sql) {
-    return executeUpdate(sql);
   }
   
   protected void setMode(SQL mode) {
