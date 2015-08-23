@@ -1,5 +1,6 @@
 package net.ghostrealms.lib;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -12,11 +13,18 @@ public class GhostMessage
 
     public static void messagePlayer(Player player, String msg, boolean title)
     {
-
         if(title)
             player.sendMessage(TITLE + formatMessage(msg));
         else
             player.sendMessage(formatMessage(msg));
+    }
+
+    public static void broadcast(String msg, boolean title)
+    {
+        if(title)
+            Bukkit.getServer().broadcastMessage(TITLE + formatMessage(msg));
+        else
+            Bukkit.getServer().broadcastMessage(formatMessage(msg));
     }
 
     /*
