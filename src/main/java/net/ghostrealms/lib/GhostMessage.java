@@ -9,9 +9,7 @@ import org.bukkit.entity.Player;
 public class GhostMessage
 {
     public static final String TITLE = ChatColor.GRAY + "[Realms] " + ChatColor.WHITE;
-    /*
-        Note:
-     */
+
     public static void messagePlayer(Player player, String msg, boolean title)
     {
 
