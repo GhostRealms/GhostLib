@@ -33,37 +33,37 @@ public class GhostMessage
     public static String formatMessage(String msg)
     {
         if(msg.contains("&0"))
-            msg.replace("&0", ChatColor.BLACK.toString());
+            msg = msg.replaceAll("&0", ChatColor.BLACK.toString());
         if(msg.contains("&1"))
-            msg.replace("&1", ChatColor.DARK_BLUE.toString());
+            msg = msg.replaceAll("&1", ChatColor.DARK_BLUE.toString());
         if(msg.contains("&2"))
-            msg.replace("&2", ChatColor.DARK_GREEN.toString());
+            msg = msg.replaceAll("&2", ChatColor.DARK_GREEN.toString());
         if(msg.contains("&3"))
-            msg.replace("&3", ChatColor.DARK_AQUA.toString());
+            msg = msg.replaceAll("&3", ChatColor.DARK_AQUA.toString());
         if(msg.contains("&4"))
-            msg.replace("&4", ChatColor.DARK_RED.toString());
+            msg = msg.replaceAll("&4", ChatColor.DARK_RED.toString());
         if(msg.contains("&5"))
-            msg.replace("&5", ChatColor.DARK_PURPLE.toString());
+            msg = msg.replaceAll("&5", ChatColor.DARK_PURPLE.toString());
         if(msg.contains("&6"))
-            msg.replace("&6", ChatColor.GOLD.toString());
+            msg = msg.replaceAll("&6", ChatColor.GOLD.toString());
         if(msg.contains("&7"))
-            msg.replace("&7", ChatColor.GRAY.toString());
+            msg = msg.replaceAll("&7", ChatColor.GRAY.toString());
         if(msg.contains("&8"))
-            msg.replace("&8", ChatColor.DARK_GRAY.toString());
+            msg = msg.replaceAll("&8", ChatColor.DARK_GRAY.toString());
         if(msg.contains("&9"))
-            msg.replace("&9", ChatColor.BLUE.toString());
+            msg = msg.replaceAll("&9", ChatColor.BLUE.toString());
         if(msg.contains("&a"))
-            msg.replace("&a", ChatColor.GREEN.toString());
+            msg = msg.replaceAll("&a", ChatColor.GREEN.toString());
         if(msg.contains("&b"))
-            msg.replace("&b", ChatColor.AQUA.toString());
+            msg = msg.replaceAll("&b", ChatColor.AQUA.toString());
         if(msg.contains("&c"))
-            msg.replace("&c", ChatColor.RED.toString());
+            msg = msg.replaceAll("&c", ChatColor.RED.toString());
         if(msg.contains("&d"))
-            msg.replace("&d", ChatColor.LIGHT_PURPLE.toString());
+            msg = msg.replaceAll("&d", ChatColor.LIGHT_PURPLE.toString());
         if(msg.contains("&e"))
-            msg.replace("&e", ChatColor.YELLOW.toString());
+            msg = msg.replaceAll("&e", ChatColor.YELLOW.toString());
         if(msg.contains("&f"))
-            msg.replace("&f", ChatColor.WHITE.toString());
+            msg = msg.replaceAll("&f", ChatColor.WHITE.toString());
 
         return msg;
     }
